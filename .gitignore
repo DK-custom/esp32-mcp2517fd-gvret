@@ -1,0 +1,9 @@
+build/
+*.elf
+*.map
+*.bin
+*.hex
+*.uf2
+.vscode/
+.idea/
+*.log
