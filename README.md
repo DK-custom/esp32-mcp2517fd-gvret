@@ -1,5 +1,7 @@
 # ESP32 + MCP2517FD GVRET CAN FD adapter
 
+English | [Русский](README.ru.md)
+
 Firmware for a tested NodeMCU ESP-32S / classic ESP32-D0WD-V3 board and an
 MCP2517FD-family SPI CAN FD module. It exposes **one** CAN bus to SavvyCAN over
 USB serial at **1,000,000 baud**. The current sketch reports build 7.
@@ -46,7 +48,7 @@ arduino-cli compile --fqbn esp32:esp32:nodemcu-32s --libraries .\libraries --bui
 The `libraries/ACAN2517FD` directory contains the exact 2.1.16 library copy
 used for the tested build. Its MIT license and Pierre Molinaro's copyright
 notice remain in [`libraries/ACAN2517FD/LICENSE`](libraries/ACAN2517FD/LICENSE).
-The repository's top-level MIT license covers our firmware and bench scripts.
+The repository's top-level MIT license covers our firmware and debugging scripts.
 Generated `build/` files are deliberately not tracked by Git.
 
 Only flash a board you have positively identified. For the same board/FQBN:
@@ -76,14 +78,19 @@ existing settings.
 
 ## Validation and limits
 
-On an isolated two-node bench with Vector VN1640A CH1, 600 mixed ESP → Vector
-frames (200 Classic 8-byte, 200 FD 12-byte without BRS, 200 FD 64-byte with
-BRS) were received byte-exact with zero loss, duplicates, Vector errors, or
-ESP TEC/REC errors at about 100 frames/s. Listen Only blocked attempted TX;
-FD-disabled mode blocked FD TX while Classic still worked. Earlier
-Vector → ESP mixed-load and bidirectional tests also passed. The repeatable
-Windows/Vector scripts are under `tools/` and require a separately installed
-Vector driver/XL API; no Vector binaries are included.
+A Vector VN1640A was used only as a development/debugging tool to check this
+ESP32 adapter on the bench. It is **not** part of the solution, not supported
+hardware and not needed to build, flash or use the firmware with SavvyCAN.
+
+On an isolated two-node bench with the Vector VN1640A CH1 as the peer node,
+600 mixed ESP → peer frames (200 Classic 8-byte, 200 FD 12-byte without BRS,
+200 FD 64-byte with BRS) were received byte-exact with zero loss, duplicates,
+peer errors, or ESP TEC/REC errors at about 100 frames/s. Listen Only blocked
+attempted TX; FD-disabled mode blocked FD TX while Classic still worked.
+Earlier peer → ESP mixed-load and bidirectional tests also passed. The
+Windows debugging scripts used for these checks are kept under `tools/` for
+reference only; they need a separately installed Vector driver/XL API, and no
+Vector binaries are included.
 
 This is **not** a certification for vehicle use, electrical fault tolerance,
 or every SavvyCAN transmit feature. First test on an isolated, correctly
@@ -92,5 +99,5 @@ without understanding the target network and consequences.
 
 ## License
 
-Our firmware, documentation and bench scripts: MIT, see [LICENSE](LICENSE).
+Our firmware, documentation and debugging scripts: MIT, see [LICENSE](LICENSE).
 Vendored ACAN2517FD 2.1.16: MIT, see its separate license above.
